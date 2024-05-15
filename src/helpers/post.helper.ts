@@ -18,5 +18,5 @@ export function convertTimestampToStr(timestamp: number): string {
 }
 
 export function convertLightPostToTableData(posts: Array<LightPost>): Array<TableData> {
-    return posts.map((post: LightPost) => ({customData: post, date: ""} as TableData))
+    return posts.map((post: LightPost) => ({customData: post, date: moment(post.date).format('YYYYMMDD')} as TableData))
 }

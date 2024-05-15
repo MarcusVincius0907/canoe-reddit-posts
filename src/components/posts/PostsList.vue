@@ -1,20 +1,21 @@
 
 <template>
-  <v-card flat>
-    <v-data-table class="post-table" v-model:search="search" :items="posts">
+  <v-card flat class="relative">
+    <div class="w-full max-w-44 absolute">
+      <v-text-field
+        v-model="search"
+        density="compact"
+        label="Search"
+        prepend-inner-icon="mdi mdi-magnify"
+        variant="outlined"
+        flat
+        hide-details
+        single-line
+      ></v-text-field>
+    </div>
+    <v-data-table class="post-table" :items="items">
       <template v-slot:header.customData>
-        <div class="w-full max-w-44">
-          <v-text-field
-            v-model="search"
-            density="compact"
-            label="Search"
-            prepend-inner-icon="mdi mdi-magnify"
-            variant="outlined"
-            flat
-            hide-details
-            single-line
-          ></v-text-field>
-        </div>
+        <div></div>
       </template>
       <template v-slot:item.customData="{ item }">
         <div class="w-full flex flex-col my-4">
@@ -96,6 +97,7 @@
 import { useDate } from "vuetify";
 import { convertLightPostToTableData } from "../../helpers/post.helper";
 import { ActionTypes } from "../../store/modules/Posts/actions";
+import moment from "moment";
 
 export default {
   data() {
@@ -145,6 +147,29 @@ export default {
         );
       }
       return [];
+    },
+  },
+
+  watch: {
+    posts: {
+      handler(newVal) {
+        this.items = [...newVal];
+      },
+      deep: true,
+    },
+
+    search(newVal) {
+      if (newVal) {
+        this.items = this.posts.filter(
+          (post) =>
+            post.customData.title
+              .toLowerCase()
+              .includes(newVal.toLowerCase()) ||
+            post.customData.description
+              .toLowerCase()
+              .includes(newVal.toLowerCase())
+        );
+      }
     },
   },
 };
