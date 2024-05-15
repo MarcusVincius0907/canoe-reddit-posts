@@ -2,22 +2,20 @@
 <template>
   <div>
     <Header></Header>
-    <PostsList></PostsList>
+    <Post></Post>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import Header from '../components/Header.vue'
-  import PostsList from '../components/posts/PostsList.vue'
+import { defineComponent } from "vue";
+import Header from "../components/Header.vue";
+import Post from "../components/posts/Post.vue";
 
-  export default defineComponent({
-    name: 'home',
-    components: { Header, PostsList },
-    
-  })
+export default defineComponent({
+  name: "home",
+  components: { Header, Post },
+});
 </script>
 
 <style scoped>
-
 </style>
