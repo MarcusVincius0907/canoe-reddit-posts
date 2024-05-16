@@ -9,9 +9,7 @@ export const MainMutations = {
   [MutationsType.SET_LOADER](state: State, value: boolean) {
     state.loading = value
   },
-
   [MutationsType.SET_COMMUNITY_STATUS](state: State, value: boolean) {
     state.communityNotFound = value
   },
-
 }

@@ -14,7 +14,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "loader",
-
   computed: {
     overlay() {
       return this.$store.state.loading;

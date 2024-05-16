@@ -6,9 +6,7 @@ export enum MutationsType {
 }
 
 export const UsersMutations = {
-
   [MutationsType.SET_USER_LIST](state: UsersModuleState, value: Array<LightUser>) {
     state.userList = [...value]
   },
-
 }

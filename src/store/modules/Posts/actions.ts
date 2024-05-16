@@ -19,8 +19,6 @@ export const PostAction = {
 
     const resp = await postService.getPosts(community, limit)
 
-    console.log(resp)
-
     if(resp?.error){
       context.commit(MainMutationsType.SET_COMMUNITY_STATUS, true)
     } else if (resp) {

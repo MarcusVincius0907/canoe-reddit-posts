@@ -93,7 +93,6 @@
 
 <script lang="ts">
 import { convertLightPostToTableData } from "../../helpers/post.helper";
-import { ActionTypes } from "../../store/modules/Posts/actions";
 import { defineComponent, ref } from "vue";
 import UserPopover from "../users/UserPopover.vue";
 
