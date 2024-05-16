@@ -3,20 +3,22 @@
   <navbar
     class="w-full bg-white h-20 flex justify-center items-center px-2 py-1 custom-borders-top custom-borders-bottom"
   >
-    <div class="w-full max-w-5xl flex items-center">
-      <div class="w-full max-w-80">
+    <div class="w-full max-w-5xl flex items-center justify-between gap-3">
+      <div class="w-full max-w-40">
         <img class="h-16" src="../assets/logo.png" alt="canoe logo" />
       </div>
-      <v-text-field
-        v-model="search"
-        density="compact"
-        label="Enter a community..."
-        prepend-inner-icon="mdi mdi-magnify"
-        variant="outlined"
-        flat
-        hide-details
-        single-line
-      ></v-text-field>
+      <div class="w-full max-w-52">
+        <v-text-field
+          v-model="search"
+          density="compact"
+          label="Enter a community..."
+          prepend-inner-icon="mdi mdi-magnify"
+          variant="outlined"
+          flat
+          hide-details
+          single-line
+        ></v-text-field>
+      </div>
     </div>
   </navbar>
 </template>
