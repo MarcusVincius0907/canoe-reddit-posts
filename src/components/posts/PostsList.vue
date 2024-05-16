@@ -1,7 +1,7 @@
 
 <template>
   <v-card flat class="relative">
-    <div class="w-full max-w-44 absolute">
+    <div class="w-full max-w-44 absolute pl-4">
       <v-text-field
         v-model="search"
         density="compact"
@@ -13,7 +13,12 @@
         single-line
       ></v-text-field>
     </div>
-    <v-data-table class="post-table" :items="items">
+    <v-data-table
+      class="post-table"
+      :items="items"
+      :page="page"
+      :items-per-page="itemsPerPage"
+    >
       <template v-slot:header.customData>
         <div></div>
       </template>
@@ -21,15 +26,8 @@
         <div class="w-full flex flex-col my-4">
           <div class="flex justify-between">
             <div class="flex gap-4 items-center">
-              <div
-                class="rounded-full bg-slate-200 h-8 w-8 flex justify-center items-center"
-              >
-                <img
-                  src="../../assets/user-default.png"
-                  alt=""
-                  width="20"
-                  height="20"
-                />
+              <div>
+                <UserPopover :userName="item.customData.userName"></UserPopover>
               </div>
               <div class="font-bold text-gray-600">
                 {{ item.customData.userName }}
@@ -85,7 +83,7 @@
       </template>
 
       <template v-slot:bottom>
-        <div class="text-center pt-2">
+        <div class="text-center pt-2 pb-10">
           <v-pagination v-model="page" :length="pageCount"></v-pagination>
         </div>
       </template>
@@ -93,48 +91,26 @@
   </v-card>
 </template>
 
-<script>
-import { useDate } from "vuetify";
+<script lang="ts">
 import { convertLightPostToTableData } from "../../helpers/post.helper";
 import { ActionTypes } from "../../store/modules/Posts/actions";
-import moment from "moment";
+import { defineComponent, ref } from "vue";
+import UserPopover from "../users/UserPopover.vue";
 
-export default {
-  data() {
+export default defineComponent({
+  name: "post-list",
+  components: { UserPopover },
+  setup() {
     return {
-      search: "",
-
-      items: [
-        {
-          customData: {
-            userName: "marcus",
-            date: "Jan 1, 2024",
-            title:
-              "Looking for books, videos, or other resources on specific or general topics? Ask here!",
-            descripton: "",
-          },
-          date: "",
-        },
-        {
-          customData: {
-            userName: "joao",
-            date: "Jan 1, 2024",
-            title: "The art of computer progamming by Donald E. Knuth",
-            descripton:
-              "The art of computer programming is a book worth reading as many students and professionals of computer science claim.\n\nI am thinking of starting the book. But there is a lot of confusion regarding the editions, volumes, and fascicles of the book. \n\nCan anyone please help in making sense of the order of this book series?\n\nThe latest edition of volume 1 is 3rd published in 1997. \n\nWhat about volume 2 and volume 3?\n\nAnd what's with the fascicles of volume 4? And how many volume 4s are there? I have found upto volume 4c. \n\nThese books arent mentioned on Amazon. Even on Donald's publisher account.\n\nA quick Google search reveals that there are 7 volumes of the book series. \n\nI read somewhere that volume 4b and 4c are volume 6 and 7. \n\nCan anyone help make sense of all this?",
-          },
-          date: "",
-        },
-      ],
+      search: ref(""),
+      items: ref([]),
+      page: ref(1),
+      itemsPerPage: ref(5),
     };
   },
 
-  mounted() {
-    this.$store.dispatch(ActionTypes.GET_POSTS_LIST, "computerscience", 25);
-  },
-
   methods: {
-    goToLink(url) {
+    goToLink(url: string) {
       window.open(url, "_blank");
     },
   },
@@ -147,6 +123,10 @@ export default {
         );
       }
       return [];
+    },
+
+    pageCount() {
+      return Math.ceil(this.items.length / this.itemsPerPage);
     },
   },
 
@@ -172,11 +152,11 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style>
 .post-table .v-table__wrapper {
-  overflow: hidden !important;
+  overflow-y: hidden !important;
 }
 </style>

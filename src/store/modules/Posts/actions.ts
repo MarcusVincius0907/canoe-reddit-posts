@@ -3,6 +3,7 @@ import { ActionContext } from 'vuex'
 import { PostModuleState} from './state'
 import { MutationsType } from './mutations'
 import { covertPostToLightPost } from '../../../helpers/post.helper'
+import { MutationsType as MainMutationsType } from '../../mutations'
 
 export enum ActionTypes {
   GET_POSTS_LIST = 'GET_POSTS_LIST',
@@ -10,7 +11,7 @@ export enum ActionTypes {
 
 export const PostAction = {
   async [ActionTypes.GET_POSTS_LIST](context: ActionContext<PostModuleState, State>, community: string, limit: number) {
-    //context.commit(MainMutationsType.SET_CUSTOM_LOADER, true)
+    context.commit(MainMutationsType.SET_LOADER, true)
 
     const PostService = await import('../../../services/postsService')
 
@@ -20,11 +21,14 @@ export const PostAction = {
 
     console.log(resp)
 
-    if (resp) {
+    if(resp?.error){
+      context.commit(MainMutationsType.SET_COMMUNITY_STATUS, true)
+    } else if (resp) {
       context.commit(MutationsType.SET_POST_LIST, [...covertPostToLightPost(resp)])
+      context.commit(MainMutationsType.SET_COMMUNITY_STATUS, false)
     }
 
-    //context.commit(MainMutationsType.SET_CUSTOM_LOADER, false)
+    context.commit(MainMutationsType.SET_LOADER, false)
   },
   
 }

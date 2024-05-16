@@ -1,5 +1,6 @@
 import { ApiResponse, LightPost, Post, TableData } from "../types/Post";
 import moment from 'moment'
+import { convertTimestampToStr } from "./date.helper";
 
 export function covertPostToLightPost(postResponse: ApiResponse): Array<LightPost> {
     return postResponse?.data?.children?.map((post: Post) => ({
@@ -11,10 +12,6 @@ export function covertPostToLightPost(postResponse: ApiResponse): Array<LightPos
         comments: `${post?.data?.num_comments || 0}`,
         shareUrl: post?.data?.url || ""
     } as LightPost))
-}
-
-export function convertTimestampToStr(timestamp: number): string {
-    return moment.unix(timestamp).format('MMM D, YYYY');
 }
 
 export function convertLightPostToTableData(posts: Array<LightPost>): Array<TableData> {
